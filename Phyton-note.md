@@ -10,28 +10,35 @@ input = pede uma entrada do usuário
 print = mostra algum valor
 
 # Operação matemática
-+ = soma
-- = subtração
-/ = divisão
-// = divisão inteira
-* = multiplicação
-% = modolu (resto da divisão)
-** = potencia, exponenciação
+- += soma
+- -= subtração
+- /= divisão
+- // = divisão inteira
+- *= multiplicação
+- %= modolu (resto da divisão)
+- ** = potencia, exponenciação"
 
 # Comparações em phyton
-== = igual a algo
-!= diferença
->= = maior ou igual
-> = maior
-<= = menor ou igual
-< = menor
+- == = igual a algo
+- != diferença
+- '>= = maior ou igual
+- '> = maior
+- '<= = menor ou igual
+- '< = menor
 
 # Atribuição em phyton
 para atribuir um valor é usado =
+
 += e para somar a atribuição anterior
+
 -= subtrair a atribuição anterior
+
 *= multiplica a atribuição
+
 /= divide a atribuição
+
 //= divide com numero inteiro
+
 %= para saber qual o resto de uma divisão
+
 **= para fazer uma exponenciação a atribuição
