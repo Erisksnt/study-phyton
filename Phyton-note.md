@@ -1,13 +1,13 @@
 # Phyton
 
-dir = usado para verificar a estrutura, pastas utilizadas quando chamo algum comando
-help = ajuda interativa dentro do proprio python
-int = entrada de numero inteiro
-float = entrada de numero quebrado
-bool = entrada de booleano (sim e não, 0 e 1)
-str = entrada de char
-input = pede uma entrada do usuário
-print = mostra algum valor
+dir = usado para verificar a estrutura, pastas utilizadas quando chamo algum comando //
+help = ajuda interativa dentro do proprio python //
+int = entrada de numero inteiro //
+float = entrada de numero quebrado //
+bool = entrada de booleano (sim e não, 0 e 1) //
+str = entrada de char //
+input = pede uma entrada do usuário //
+print = mostra algum valor 
 
 # Operação matemática
 - += soma
@@ -35,3 +35,18 @@ print = mostra algum valor
 - //= divide com numero inteiro
 - %= para saber qual o resto de uma divisão
 - **= para fazer uma exponenciação a atribuição
+
+## Exemplo 
+saldo = 100
+
+saque = 10
+
+limite = 200
+
+saldo >= saque and saque<= limite
+(retorne true)
+
+saldo >= saque or saque<= limite (retorne true)
+
+saldo >= saque not saque<= limite
+(retorne false)
