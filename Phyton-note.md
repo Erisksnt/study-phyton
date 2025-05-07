@@ -50,3 +50,33 @@ saldo >= saque or saque<= limite (retorne true)
 
 saldo >= saque not saque<= limite
 (retorne false)
+
+# Operadores de identidade
+São operadores utilizado para comparar objetos:
+
+is = se ocupam mesma região de memoria
+
+is not = se não ocupam a mesma região de memoria
+
+# Operadores de associação
+São operadores utilizados para verificar se um objeto esta em uma sequencia:
+
+- in = informativo de quando algo esta na sequencia
+- not in = informativo de quando não esta na sequencia
+
+## Exemplo 
+
+cursos = "Cursos de Phyton"
+
+frutas = ["Laranjas", "Uva", "Limao"]
+
+saques = [1500, 100]
+
+"phyton" in curso
+- return True
+
+"coco" not in frutas
+- return true
+
+200 in saques
+- return false
