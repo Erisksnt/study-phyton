@@ -18,10 +18,20 @@ print = mostra algum valor
 % = modolu (resto da divisão)
 ** = potencia, exponenciação
 
-# comparações em phyton
+# Comparações em phyton
 == = igual a algo
 != diferença
 >= = maior ou igual
 > = maior
 <= = menor ou igual
 < = menor
+
+# Atribuição em phyton
+para atribuir um valor é usado =
++= e para somar a atribuição anterior
+-= subtrair a atribuição anterior
+*= multiplica a atribuição
+/= divide a atribuição
+//= divide com numero inteiro
+%= para saber qual o resto de uma divisão
+**= para fazer uma exponenciação a atribuição
