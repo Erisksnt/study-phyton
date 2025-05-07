@@ -27,18 +27,11 @@ print = mostra algum valor
 - '< = menor
 
 # Atribuição em phyton
-para atribuir um valor é usado =
-
-+= e para somar a atribuição anterior
-
--= subtrair a atribuição anterior
-
-*= multiplica a atribuição
-
-/= divide a atribuição
-
-//= divide com numero inteiro
-
-%= para saber qual o resto de uma divisão
-
-**= para fazer uma exponenciação a atribuição
+- = para atribuir
+- += e para somar a atribuição anterior
+- -= subtrair a atribuição anterior
+- *= multiplica a atribuição
+- /= divide a atribuição
+- //= divide com numero inteiro
+- %= para saber qual o resto de uma divisão
+- **= para fazer uma exponenciação a atribuição
