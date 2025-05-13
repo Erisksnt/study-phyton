@@ -61,7 +61,10 @@ and, or, not
 # Operadores de Comparação
 ==, !=, <, >, <=, >=
 
-# Outros
+# Operadores matematicos
++=, -=, /=, //, *=, %=, **,
+
+# Outros operadores
 in, not in, is, is not
 ```
 
