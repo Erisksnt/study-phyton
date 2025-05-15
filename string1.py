@@ -1,5 +1,3 @@
-#Exemplos do tipo de strig 1
-
 nome = "ericK"
 texto =" hellow mundo  "
 menu = "phynton"

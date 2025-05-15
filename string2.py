@@ -1,5 +1,3 @@
-###Exemplo de string2###
-
 nome = input("Informe your name: ")
 age = input("How old are u?: ")
 job = input("What your profission: ")
