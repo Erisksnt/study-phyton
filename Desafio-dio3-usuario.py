@@ -1,4 +1,4 @@
-#Desafio Dio 2 - Acrescentando data e hora
+#Desafio Dio 3 - Cadastrando Usuario
 from datetime import datetime, date, time
 menu = """
 ╔==================== Bem vindo ao Erisk Bank ====================╗
@@ -15,11 +15,11 @@ limite = 500
 limite_saque = 10
 num_saques = 0
 extrato = ""
-hora_atual = 0
 data_hora_atual = datetime.today()
 data_atual = datetime.today()
 mascara_hora = "%H:%M - %d/%m/%Y"
 mascara_dia = "%d/%m/%Y - %H:%M"
+
 while True:
     opcao = input(menu)
     #Deposito
