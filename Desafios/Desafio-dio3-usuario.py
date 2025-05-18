@@ -13,6 +13,7 @@ menu = """
 
 saldo = 0
 limite = 500
+saque_total = 0
 limite_saque = 10
 num_saques = 0
 extrato = ""
@@ -20,6 +21,8 @@ data_hora_atual = datetime.today()
 data_atual = datetime.today()
 mascara_hora = "%H:%M - %d/%m/%Y"
 mascara_dia = "%d/%m/%Y - %H:%M"
+usuario = str(input("Informe o usuario de login:"))
+senha = str(input("Digite sua senha:"))
 
 while True:
     opcao = input(menu)
@@ -37,8 +40,9 @@ while True:
     elif opcao == "2":
         valor = float(input("Qual valor do saque?: "))
 
-        if valor > limite:
+        if (saque_total + valor) > limite:
                 valor = print(input("O limite diario para saque é de R$500,00"))
+                               
         else:
             if num_saques >= limite_saque:
                     print("Voce excedeu a quatidade de saques permitida.")
@@ -48,6 +52,7 @@ while True:
                         
                 else:
                     saldo -= valor
+                    saque_total += valor
                     num_saques += 1
                     extrato += f"Saque: R$ {valor:.2f} Realizado às {data_hora_atual.strftime(mascara_hora)}\n"
                     print("Saque efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
