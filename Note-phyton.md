@@ -1,142 +1,98 @@
 
 # 📘 Anotações de Python
 
-Este documento contém um resumo dos principais comandos e funcionalidades do Python que você pode usar como referência rápida no seu dia a dia.
+## 🛠️ Comandos Básicos
 
----
-
-## 🔍 Comandos Básicos
-
-```python
-dir()      # Mostra os atributos e métodos de um objeto
-help()     # Mostra a ajuda interativa no terminal
-print()    # Exibe mensagens/valores na tela
-input()    # Solicita entrada do usuário (retorna string)
-```
-
----
+- `dir` — Verifica a estrutura e os atributos disponíveis de um objeto.
+- `help()` — Ajuda interativa dentro do próprio Python.
+- `input()` — Solicita uma entrada do usuário.
+- `print()` — Exibe valores na tela.
 
 ## 📌 Tipos de Dados
 
+- `int` — Número inteiro.
+- `float` — Número com casas decimais.
+- `bool` — Booleano (True ou False, 1 ou 0).
+- `str` — Texto (string/caractere).
+
+## 🧠 Operadores Lógicos
+
+- `and` — E lógico.
+- `or` — Ou lógico.
+- `not` — Negação lógica.
+- `in`, `is`, `is not` — Operadores de comparação e identidade.
+
+## 🔁 Estruturas de Repetição
+
+- `while` — Executa enquanto a condição for verdadeira.
+- `for` — Loop com controle de condição ou intervalo.
+
+## ✅ Estruturas Condicionais
+
+- `if` — Se a condição for verdadeira, executa o bloco.
+- `elif` — Caso contrário, se essa outra condição for verdadeira.
+- `else` — Executado se nenhuma condição for satisfeita.
+
+## 🧩 Funções
+
+- `def` — Define uma função.
+  
 ```python
-int     # Números inteiros (ex: 10)
-float   # Números decimais (ex: 3.14)
-bool    # Booleano (True ou False)
-str     # Texto (ex: "Olá mundo")
+def minha_funcao():
+    print("Olá!")
 ```
-
----
-
-## 🔁 Estruturas de Controle
-
-### Condicionais
-
-```python
-if condicao:
-    # código
-
-elif outra_condicao:
-    # código
-
-else:
-    # código
-```
-
-### Laços de Repetição
-
-```python
-while condicao:
-    # repete enquanto a condição for verdadeira
-
-for item in lista:
-    # percorre a lista
-```
-
-### Operadores
-
-```python
-# Operadores Lógicos
-and, or, not
-
-# Operadores de Comparação
-==, !=, <, >, <=, >=
-
-# Operadores matematicos
-+=, -=, /=, //, *=, %=, **,
-
-# Outros operadores
-in, not in, is, is not
-```
-
----
-
-## 🧮 Funções
-
-```python
-def nome_da_funcao():
-    print("Olá mundo!")
-```
-
----
 
 ## 📚 Listas
 
+- `list` — Estrutura para armazenar múltiplos valores mutáveis.
+
 ```python
-frutas = ["maçã", "banana", "laranja"]
+minha_lista = [1, 2, 3]
 ```
 
 ### Métodos de Lista
 
-```python
-frutas.append("uva")               # Adiciona item ao final
-frutas.clear()                     # Limpa todos os itens
-frutas.copy()                      # Retorna cópia da lista
-frutas.count("maçã")               # Conta quantas vezes aparece
-frutas.extend(["pera"])            # Junta outra lista
-frutas.index("banana")             # Retorna índice
-frutas.pop()                       # Remove o último item
-frutas.remove("laranja")           # Remove o item especificado
-frutas.reverse()                   # Inverte a lista
-frutas.sort()                      # Ordena em ordem crescente
-frutas.sort(key=lambda x: len(x))  # Ordena por tamanho dos itens
-```
-
----
-
-## 🔢 Matrizes (Listas dentro de Listas)
-
-```python
-matriz = [
-    [1, 2],
-    [3, 4]
-]
-```
-
----
+- `.append(x)` — Adiciona um item ao final.
+- `.clear()` — Limpa todos os itens da lista.
+- `.copy()` — Cria uma cópia da lista.
+- `.count(x)` — Conta quantas vezes um item aparece.
+- `.extend(lista2)` — Junta duas listas.
+- `.index(x)` — Retorna o índice do item.
+- `.pop()` — Remove e retorna o último item.
+- `.remove(x)` — Remove um item específico.
+- `.reverse()` — Inverte a ordem dos elementos.
+- `.sort()` — Ordena em ordem crescente.
+- `.sort(key=lambda x: len(x))` — Ordena com base no comprimento dos itens.
+- `len(lista)` — Retorna o número de elementos.
 
 ## 📐 Tuplas
 
-```python
-cores = ("vermelho", "azul", "verde",)  # Estrutura imutável (utilizasse virgula ao final como boa pratica)
-```
-## 🔢 Matrizes (Listas dentro de Tuplas)
+- `tuple` — Estrutura imutável.
 
 ```python
-matriz = [
-    (1, 2),
-    (3, 4),
-]
+tupla = ("a", "b", "c")
 ```
 
----
+## 🎯 Sets (Conjuntos)
 
-## 🧰 Funções Úteis
+- `set` — Estrutura de dados sem elementos duplicados.
 
 ```python
-len(objeto)   # Retorna o tamanho do objeto
-type(objeto)  # Mostra o tipo do objeto
+meu_set = {"a", "b", "c"}
 ```
 
----
+## ⏳ Datas e Horas
 
-> ⚙️ Atualizado por Erick — Aprendizado contínuo em Python 💻
+> É necessário importar a biblioteca:
+
+```python
+from datetime import date, datetime, time, timedelta
+```
+
+- `date` — Representa uma data.
+- `time` — Representa um horário.
+- `datetime` — Representa data e hora.
+- `datetime.today()` — Retorna a data e hora atual.
+- `datetime.timedelta()` — Faz operações com datas.
+- `strftime()` — Converte objeto `datetime` em string com formato.
+- `strptime()` — Converte string formatada em objeto `datetime`.
