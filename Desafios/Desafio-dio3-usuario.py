@@ -1,15 +1,16 @@
 #Desafio Dio 3 - Cadastrando Usuario
 from datetime import datetime, date, time
 menu = """
-╔==================== Bem vindo ao Erisk Bank ====================╗
-║============== Onde seu dinheiro trabalha por você ==============║
-║                         [1] Depositar                           ║ 
-║                         [2] Saque                               ║
-║                         [3] Extrato                             ║
-║                         [4] Sair                                ║
-╚=================================================================╝
+╔====================== Bem vindo ao Erisk Bank ====================╗
+║============== Onde seu dinheiro trabalha por você ================║
+║                         [1] Depositar                             ║ 
+║                         [2] Saque                                 ║
+║                         [3] Extrato                               ║
+║                         [4] Criar Usuario                         ║
+║                         [5] Criar Nova conta                      ║
+║                         [6] Sair                                  ║
+╚===================================================================╝
 """
-#em andamento
 
 saldo = 0
 limite = 500
@@ -21,8 +22,58 @@ data_hora_atual = datetime.today()
 data_atual = datetime.today()
 mascara_hora = "%H:%M - %d/%m/%Y"
 mascara_dia = "%d/%m/%Y - %H:%M"
-usuario = str(input("Informe o usuario de login:"))
-senha = str(input("Digite sua senha:"))
+
+#Cadastro de usuario
+usuarios = []
+def criar_usuario(usuarios):
+    cpf = input("Informe o CPF(Somente numeros):")
+    usuario = filtrar_usuarios(cpf, usuarios)
+
+    if usuario:
+        print("Já existe usuario vinculado a esse CPF")
+        return
+    
+    nome = input("Informe seu nome completo: ")
+    data_nasc = input("Informe sua data de nascimento: ")
+    endereco = input("Informe seu endereço: ")
+
+    usuarios.append({
+        "nome": nome,
+        "data_nasc": data_nasc,
+        "cpf": cpf,
+        "endereco": endereco
+    })
+    print("Usuario Cadastrado com sucesso!")
+
+def filtrar_usuarios(cpf, usuarios):
+     return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
+
+#Criar conta Corrente
+contas_corrente = []
+
+def criar_conta(usuarios, contas_corrente):
+     cpf = input("Informe o CPF(Somente numeros):")
+     usuario = filtrar_usuarios(cpf, usuarios)
+
+     if not usuario:
+        print("Usuário não encontrado! Cadastre primeiro o usuário.")
+        return
+     
+     agencia = "0001"
+     numero_conta = len(contas_corrente) + 1
+
+     conta = {
+          "agencia": agencia,
+          "numero_conta": numero_conta,
+          "usuario": usuario,
+          
+     }
+     contas_corrente.append(conta)
+     print(f"Conta criada com sucesso!\nAgencia: {agencia}\nConta: {numero_conta}")
+
+def filtrar_usuarios(cpf, usuarios):
+     return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
+
 
 while True:
     opcao = input(menu)
@@ -59,14 +110,23 @@ while True:
                     print(f"Seu saldo é de: R$ {saldo:.2f}")
     #Extrato
     elif opcao == "3":
+         print("=========================Extrato============================\n")
          print(extrato)
          print(f"Seu saldo é de: R$ {saldo:.2f}")
-         print(f"Extrato referente ao dia {data_atual.strftime(mascara_dia)}")
+         print(f"Extrato referente ao dia {data_atual.strftime(mascara_dia)}\n")
+         print("============================================================")
          
-    #Sair do laço
+    #Chamar a função criar_usuario
     elif opcao == "4":
-         print("Obrigado volte sempre!")
-         break
+         criar_usuario(usuarios)
     
+    #Chamar a função criar_conta
+    elif opcao == "5":
+          criar_conta(usuarios, contas_corrente)
+
+    #Sair do laço
+    elif opcao == "6":
+        print("Obrigado volte sempre!")
+        break
     else:
          print("Digite uma opção valida")
