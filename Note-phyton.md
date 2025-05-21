@@ -231,3 +231,138 @@ print(C.__mro__)
 
 📌 **Resumo:**\
 POO é fundamental para a construção de sistemas organizados e reutilizáveis. Os conceitos de atributos, métodos, herança, e funcionalidades como `**kwargs` e `__mro__` tornam o código mais flexível e poderoso.
+
+# 🔐 Encapsulamento, Propriedades e Polimorfismo em POO
+
+## 🔹 O que é Encapsulamento?
+
+Encapsulamento é um dos pilares da Programação Orientada a Objetos. Ele permite **esconder os detalhes internos de uma classe** e **restringir o acesso direto aos atributos**.
+
+> ✅ Objetivo: proteger o estado interno do objeto e fornecer métodos controlados para interação.
+
+### ✅ Atributos Públicos, Protegidos e Privados
+
+| Tipo        | Convenção        | Descrição |
+|-------------|------------------|-----------|
+| Público     | `self.nome`      | Pode ser acessado de fora da classe |
+| Protegido   | `self._nome`     | Deve ser acessado apenas dentro da classe ou subclasses |
+| Privado     | `self.__nome`    | Não deve ser acessado diretamente fora da classe |
+
+```python
+class Pessoa:
+    def __init__(self, nome, idade):
+        self.nome = nome         # público
+        self._cpf = "123456789"  # protegido
+        self.__senha = "abc123"  # privado
+```
+
+
+# 🧩 Propriedades em Python
+
+Em Python, usamos **propriedades** para controlar o acesso aos atributos de uma classe, aplicando o conceito de **encapsulamento**. Isso permite que métodos sejam acessados como se fossem atributos.
+
+---
+
+## 🔸 @property
+
+Permite transformar um método em um atributo de **somente leitura**. Muito útil para cálculos derivados de atributos privados.
+
+### Exemplo:
+
+```python
+class Pessoa:
+    def __init__(self, nome, ano_nasc):
+        self._nome = nome
+        self._ano_nasc = ano_nasc
+
+    @property
+    def nome(self):
+        return self._nome
+
+    @property
+    def idade(self):
+        ano_atual = 2025
+        return ano_atual - self._ano_nasc
+```
+
+---
+
+## 🔸 @x.setter
+
+Permite definir um **método de escrita** para um atributo decorado com `@property`. Assim, podemos atribuir valores usando `obj.atributo = valor`.
+
+### Exemplo:
+
+```python
+class Produto:
+    def __init__(self, preco):
+        self._preco = preco
+
+    @property
+    def preco(self):
+        return self._preco
+
+    @preco.setter
+    def preco(self, valor):
+        if valor < 0:
+            raise ValueError("O preço não pode ser negativo.")
+        self._preco = valor
+```
+
+---
+
+## 🔸 @x.deleter
+
+Permite deletar um atributo controlado, usando `del obj.atributo`. Útil quando queremos controlar ou evitar que dados sejam removidos sem validação.
+
+### Exemplo:
+
+```python
+class Produto:
+    def __init__(self, nome):
+        self._nome = nome
+
+    @property
+    def nome(self):
+        return self._nome
+
+    @nome.deleter
+    def nome(self):
+        print("Deletando nome...")
+        del self._nome
+```
+
+---
+
+# 🎭 Polimorfismo
+
+Polimorfismo é a capacidade de **usar métodos com o mesmo nome em classes diferentes**, com comportamentos distintos.
+
+Isso permite escrever **código genérico**, facilitando a extensibilidade e reutilização.
+
+### Exemplo:
+
+```python
+class Animal:
+    def emitir_som(self):
+        print("Som genérico")
+
+class Cachorro(Animal):
+    def emitir_som(self):
+        print("Latido")
+
+class Gato(Animal):
+    def emitir_som(self):
+        print("Miado")
+
+# Uso polimórfico:
+animais = [Cachorro(), Gato(), Animal()]
+for animal in animais:
+    animal.emitir_som()
+```
+
+📝 Mesmo chamando `emitir_som()`, o comportamento muda conforme a classe do objeto.
+
+---
+
+
