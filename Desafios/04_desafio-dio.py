@@ -24,15 +24,16 @@ class Saque(Transacao):
      
 class Historico:
      def __init__(self, transacao=None):
+          self.transacao = []
           if transacao is not None:
-            self.transacoes.append(transacao)
+            self.transacao.append(transacao)
           
      def extrato(self):
-          return self.transacoes
+          return self.transacao
 
      def adicionar_transacao(self,transacao=None):
           if transacao is not None:
-            self.transacoes.append(transacao)                     
+            self.transacao.append(transacao)                     
 
 class Conta:
      def __init__(self, numero, agencia, cliente, sacar, depositar,saldo=0):
