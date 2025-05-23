@@ -5,50 +5,96 @@ from abc import ABC, abstractmethod
 
 class Transacao(ABC):
      @abstractmethod
-     def registrar(self, conta):
+     def registrar(self, conta: 'Conta'):
           pass
      
 class Deposito(Transacao):
      def __init__(self, valor):
+          if valor <= 0:
+               raise ValueError("Erro, operação não pode ser concluida")
           self._valor = valor
+                         
+     @property
+     def valor(self):
+         return self._valor
 
      def registrar(self, conta):
           conta.depositar(self._valor)
           
 class Saque(Transacao):
      def __init__(self, valor):
+          if valor <= 0:
+               raise ValueError("Erro, operação não pode ser concluida")
           self._valor = valor
+
+          if valor > 500:
+               raise ValueError("Limite maximo de saque é de R$ 500,00")
+                         
+     @property
+     def valor(self):
+         return self._valor
 
      def registrar(self, conta):
           conta.sacar(self._valor)
      
 class Historico:
      def __init__(self, transacao=None):
-          self.transacao = []
+          self._transacao = []
           if transacao is not None:
-            self.transacao.append(transacao)
-          
+            self._transacao.append(transacao)
+
+     @property    
      def extrato(self):
-          return self.transacao
+          return self._transacao.copy()
 
      def adicionar_transacao(self,transacao=None):
           if transacao is not None:
-            self.transacao.append(transacao)                     
+            self._transacao.append(transacao)                     
 
 class Conta:
-     def __init__(self, numero, agencia, cliente, sacar, depositar,saldo=0):
+     def __init__(self, numero, agencia, cliente,saldo: float = 0.0):
           self.saldo = saldo
           self.numero = numero
           self.agencia = agencia
           self.cliente = cliente
-          self.sacar = sacar
-          self.depositar = depositar
+          self.historico = Historico()
+     
+     def depositar(self,valor):
+          if valor > 0:
+               self.historico.adicionar_transacao(Deposito(valor))
+               self.saldo += valor
+               return True
+          else:
+               return False
+
+     def sacar(self, valor):
+          if valor <= 0 or valor > self.saldo:
+               return False
+          self.historico.adicionar_transacao(Saque(valor))
+          self.saldo -= valor
+          return True
 
 class ContaCorrente(Conta):
-     def __init__(self, saldo, numero, agencia, cliente, limite, limite_saque):
+     def __init__(self, saldo, numero, agencia, cliente, limite=500, limite_saques=10):
           super().__init__(saldo, numero, agencia, cliente)
           self.limite = limite
-          self.limite_saque = limite_saque
+          self.limite_saques = limite_saques
+
+     def sacar(self, valor):
+          if self.limite_saques <= 0:
+               return False
+          
+          if valor > 500: 
+               return False
+          
+          if super().sacar(valor):
+               self.limite -= valor
+               self.limite_saques -= 1
+               return True
+          return False
+
+     def depositar(self, valor):
+          super().depositar(valor)
 
 class Cliente:
      def __init__(self, nome, cpf, data_nasc, endereco):
@@ -57,15 +103,12 @@ class Cliente:
           self.data_nasc = data_nasc
           self.endereco = endereco
           self.lista_conta = []
-          return
      
      def adicionar_conta(self,conta):
           self.lista_conta.append(conta)
-          return
 
-     def realizar_trasacao(self, conta, transacao):
+     def realizar_transacao(self, conta, transacao):
           transacao.registrar(conta)
-          return
 
 class PessoaFisica(Cliente):
      def __init__(self, nome, cpf, data_nasc, endereco):
@@ -82,25 +125,10 @@ menu = """
 ║                         [6] Sair                                  ║
 ╚===================================================================╝
 """
-
-
-saldo = 0
-limite = 500
-saque_total = 0
-limite_saque = 10
-num_saques = 0
-extrato = ""
 data_hora_atual = datetime.today()
 data_atual = datetime.today()
 mascara_hora = "%H:%M - %d/%m/%Y"
 mascara_dia = "%d/%m/%Y - %H:%M"
-
-class Conta:
-    def __init__(self, saldo, numero, agencia, cliente, historico):
-     self.saldo = saldo
-     self.numero = numero
-     self.agencia = agencia
-     self.historico = historico
 
 #Cadastro de usuario
 usuarios = []
@@ -116,16 +144,12 @@ def criar_usuario(usuarios):
     data_nasc = input("Informe sua data de nascimento: ")
     endereco = input("Informe seu endereço: ")
 
-    usuarios.append({
-        "nome": nome,
-        "data_nasc": data_nasc,
-        "cpf": cpf,
-        "endereco": endereco
-    })
+    novo_cliente = PessoaFisica(nome,cpf,data_nasc,endereco)
+    usuarios.append(novo_cliente)
     print("Usuario Cadastrado com sucesso!")
 
 def filtrar_usuarios(cpf, usuarios):
-     return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
+     return next((usuario for usuario in usuarios if usuario.cpf == cpf), None)
 
 #Criar conta Corrente
 contas_corrente = []
