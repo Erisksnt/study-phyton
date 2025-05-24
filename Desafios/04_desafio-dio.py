@@ -4,6 +4,10 @@ from datetime import datetime, date, time
 from abc import ABC, abstractmethod
 
 class Transacao(ABC):
+     def __init__(self, valor, data_hora):
+          self.valor = valor
+          self.data_hora = data_hora
+
      @abstractmethod
      def registrar(self, conta: 'Conta'):
           pass
@@ -13,6 +17,7 @@ class Deposito(Transacao):
           if valor <= 0:
                raise ValueError("Erro, operação não pode ser concluida")
           self._valor = valor
+          self.data_hora = data_hora_atual.strftime(mascara_hora)
                          
      @property
      def valor(self):
@@ -26,6 +31,7 @@ class Saque(Transacao):
           if valor <= 0:
                raise ValueError("Erro, operação não pode ser concluida")
           self._valor = valor
+          self.data_hora = data_hora_atual.strftime(mascara_hora)
                          
      @property
      def valor(self):
@@ -39,6 +45,7 @@ class Historico:
           self._transacao = []
           if transacao is not None:
             self._transacao.append(transacao)
+            self.data_hora = data_hora_atual.strftime(mascara_hora)
 
      @property    
      def extrato(self):
@@ -126,6 +133,8 @@ data_hora_atual = datetime.today()
 data_atual = datetime.today()
 mascara_hora = "%H:%M - %d/%m/%Y"
 mascara_dia = "%d/%m/%Y - %H:%M"
+usuario_logado = None
+conta = None
 
 #Cadastro de usuario
 usuarios = []
@@ -170,68 +179,83 @@ def filtrar_usuarios(cpf, usuarios):
      return next((usuario for usuario in usuarios if usuario.cpf == cpf), None)
 
 while True:
-    opcao = input(menu)
-    #Deposito
-    if opcao == "1" :
-        cpf = input("Informe o CPF(Somente numeros):")
-        usuario = filtrar_usuarios(cpf, usuarios)
-   
-        if not usuario:
-           print("Usuário não encontrado! Cadastre primeiro o usuário.")
-
-        if not usuario.lista_conta:
-           print("Conta não encontrada") 
-
-        else:
-             conta =  usuario.lista_conta[0]
-             valor = float(input("Qual valor do deposito?: "))
-             if valor > 0:
-                 deposito = Deposito(valor)
-                 usuario.realizar_transacao(conta, deposito)
-                 print("Deposito efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
-                 print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
-             else:
-                 print("Valor invalido")
-    #Saque
-    elif opcao == "2":
-        cpf = input("Informe o CPF(Somente numeros):")
-        usuario = filtrar_usuarios(cpf, usuarios)
-   
-        if not usuario:
-           print("Usuário não encontrado! Cadastre primeiro o usuário.")
-
-        if not usuario.lista_conta:
-           print("Conta não encontrada") 
-
-        else:
-             conta =  usuario.lista_conta[0]
-             valor = float(input("Qual valor do saque?: "))
-             if valor <= conta.saldo:
-                 saque = Saque(valor)
-                 usuario.realizar_transacao(conta, saque)
-                 print("Saque efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
-                 print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
-             else:
-                 print("Valor invalido")
-    #Extrato
-    elif opcao == "3":
-         print("=========================Extrato============================\n")
-         print(extrato)
-         print(f"Seu saldo é de: R$ {saldo:.2f}")
-         print(f"Extrato referente ao dia {data_atual.strftime(mascara_dia)}\n")
-         print("============================================================")
-         
-    #Chamar a função criar_usuario
-    elif opcao == "4":
-         criar_usuario(usuarios)
+     opcao = input(menu)
+     #Deposito
+     if opcao == "1" :
+          cpf = input("Informe o CPF(Somente numeros):")
+          usuario = filtrar_usuarios(cpf, usuarios)
+          
+          if not usuario:
+             print("Usuário não encontrado! Cadastre primeiro o usuário.")
+             continue
+          
+          if not usuario.lista_conta:
+             print("Conta não encontrada") 
+             continue
+          
+          else:
+               conta =  usuario.lista_conta[0]
+               valor = float(input("Qual valor do deposito?: "))
+               if valor > 0:
+                   deposito = Deposito(valor)
+                   usuario.realizar_transacao(conta, deposito)
+                   print("Deposito efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
+                   print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
+               else:
+                   print("Valor invalido")
+     #Saque
+     elif opcao == "2":
+          cpf = input("Informe o CPF(Somente numeros):")
+          usuario = filtrar_usuarios(cpf, usuarios)
     
-    #Chamar a função criar_conta
-    elif opcao == "5":
-          criar_conta(usuarios, contas_corrente)
+          if not usuario:
+             print("Usuário não encontrado! Cadastre primeiro o usuário.")
+             continue
+          
+          if not usuario.lista_conta:
+             print("Conta não encontrada") 
+             continue
+          else:
+               conta =  usuario.lista_conta[0]
+               valor = float(input("Qual valor do saque?: "))
+               if valor <= conta.saldo:
+                   saque = Saque(valor)
+                   usuario.realizar_transacao(conta, saque)
+                   print("Saque efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
+                   print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
+               else:
+                   print("Valor invalido")
+     #Extrato
+     elif opcao == "3":
+          print("\n=========================Extrato============================\n")
+          if not conta:
+               print("Conta não encontrada. Faça login ou cria primeiro uma conta.")
+               continue
 
-    #Sair do laço
-    elif opcao == "6":
-        print("Obrigado volte sempre!")
-        break
-    else:
+          if not conta.historico.extrato:
+              print("Nenhuma movimentação realizada.")
+          else:
+              for transacao in conta.historico.extrato:
+                  tipo = type(transacao).__name__
+                  print(f"{tipo} de R$ {transacao.valor:.2f} às {transacao.data_hora}")
+
+          print(f"\nSeu saldo é de: R$ {conta.saldo:.2f}")
+          print(f"Extrato referente ao dia {data_atual.strftime(mascara_dia)}\n")
+          print("============================================================")
+ 
+     #Chamar a função criar_usuario
+     elif opcao == "4":
+          criar_usuario(usuarios)
+          continue
+     
+     #Chamar a função criar_conta
+     elif opcao == "5":
+          criar_conta(usuarios, contas_corrente)
+          continue
+     
+     #Sair do laço
+     elif opcao == "6":
+         print("Obrigado volte sempre!")
+         break
+     else:
          print("Digite uma opção valida")
