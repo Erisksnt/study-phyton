@@ -26,9 +26,6 @@ class Saque(Transacao):
           if valor <= 0:
                raise ValueError("Erro, operação não pode ser concluida")
           self._valor = valor
-
-          if valor > 500:
-               raise ValueError("Limite maximo de saque é de R$ 500,00")
                          
      @property
      def valor(self):
@@ -75,8 +72,8 @@ class Conta:
           return True
 
 class ContaCorrente(Conta):
-     def __init__(self, saldo, numero, agencia, cliente, limite=500, limite_saques=10):
-          super().__init__(saldo, numero, agencia, cliente)
+     def __init__(self, numero, agencia, cliente, saldo, limite=500, limite_saques=10):
+          super().__init__(numero, agencia, cliente, saldo)
           self.limite = limite
           self.limite_saques = limite_saques
 
@@ -84,7 +81,7 @@ class ContaCorrente(Conta):
           if self.limite_saques <= 0:
                return False
           
-          if valor > 500: 
+          if valor > self.limite: 
                return False
           
           if super().sacar(valor):
@@ -94,7 +91,7 @@ class ContaCorrente(Conta):
           return False
 
      def depositar(self, valor):
-          super().depositar(valor)
+          return super().depositar(valor)
 
 class Cliente:
      def __init__(self, nome, cpf, data_nasc, endereco):
@@ -144,7 +141,7 @@ def criar_usuario(usuarios):
     data_nasc = input("Informe sua data de nascimento: ")
     endereco = input("Informe seu endereço: ")
 
-    novo_cliente = PessoaFisica(nome,cpf,data_nasc,endereco)
+    novo_cliente = PessoaFisica(nome, cpf, data_nasc, endereco)
     usuarios.append(novo_cliente)
     print("Usuario Cadastrado com sucesso!")
 
@@ -163,54 +160,59 @@ def criar_conta(usuarios, contas_corrente):
         return
      
      agencia = "0001"
-     numero_conta = len(contas_corrente) + 1
-
-     conta = {
-          "agencia": agencia,
-          "numero_conta": numero_conta,
-          "usuario": usuario,
-          
-     }
-     contas_corrente.append(conta)
-     print(f"Conta criada com sucesso!\nAgencia: {agencia}\nConta: {numero_conta}")
+     numero_conta_corrente = len(contas_corrente) + 1
+     nova_conta_corrente = ContaCorrente(numero=numero_conta_corrente, agencia=agencia, cliente=usuario,saldo=0)
+     contas_corrente.append(nova_conta_corrente)
+     usuario.adicionar_conta(nova_conta_corrente)
+     print(f"Conta criada com sucesso para o usuario {usuario.nome}!\nAgencia: {agencia}\nConta: {numero_conta_corrente}")
 
 def filtrar_usuarios(cpf, usuarios):
-     return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
-
+     return next((usuario for usuario in usuarios if usuario.cpf == cpf), None)
 
 while True:
     opcao = input(menu)
     #Deposito
     if opcao == "1" :
-        valor = float(input("Qual valor do deposito?: "))
-        if valor > 0:
-            saldo += valor
-            extrato += f"Deposito: R$ {valor:.2f} Realizado às {data_hora_atual.strftime(mascara_hora)}\n"
-            print("Deposito efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
-            print(f"Seu saldo é de: R$ {saldo:.2f}")
+        cpf = input("Informe o CPF(Somente numeros):")
+        usuario = filtrar_usuarios(cpf, usuarios)
+   
+        if not usuario:
+           print("Usuário não encontrado! Cadastre primeiro o usuário.")
+
+        if not usuario.lista_conta:
+           print("Conta não encontrada") 
+
         else:
-            print("Valor invalido")
+             conta =  usuario.lista_conta[0]
+             valor = float(input("Qual valor do deposito?: "))
+             if valor > 0:
+                 deposito = Deposito(valor)
+                 usuario.realizar_transacao(conta, deposito)
+                 print("Deposito efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
+                 print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
+             else:
+                 print("Valor invalido")
     #Saque
     elif opcao == "2":
-        valor = float(input("Qual valor do saque?: "))
+        cpf = input("Informe o CPF(Somente numeros):")
+        usuario = filtrar_usuarios(cpf, usuarios)
+   
+        if not usuario:
+           print("Usuário não encontrado! Cadastre primeiro o usuário.")
 
-        if (saque_total + valor) > limite:
-                valor = print(input("O limite diario para saque é de R$500,00"))
-                               
+        if not usuario.lista_conta:
+           print("Conta não encontrada") 
+
         else:
-            if num_saques >= limite_saque:
-                    print("Voce excedeu a quatidade de saques permitida.")
-            else:
-                if valor <= 0 or valor > saldo:
-                        valor = print(input(f"Saldo insuficiente \nSaldo atual é de: R$ {saldo:.2f}"))
-                        
-                else:
-                    saldo -= valor
-                    saque_total += valor
-                    num_saques += 1
-                    extrato += f"Saque: R$ {valor:.2f} Realizado às {data_hora_atual.strftime(mascara_hora)}\n"
-                    print("Saque efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
-                    print(f"Seu saldo é de: R$ {saldo:.2f}")
+             conta =  usuario.lista_conta[0]
+             valor = float(input("Qual valor do saque?: "))
+             if valor <= conta.saldo:
+                 saque = Saque(valor)
+                 usuario.realizar_transacao(conta, saque)
+                 print("Saque efetuado com sucesso!", data_hora_atual.strftime(mascara_hora))
+                 print(f"Seu saldo é de: R$ {conta.saldo:.2f}")
+             else:
+                 print("Valor invalido")
     #Extrato
     elif opcao == "3":
          print("=========================Extrato============================\n")
