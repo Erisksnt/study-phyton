@@ -334,13 +334,12 @@ class Produto:
 
 ---
 
-# 🎭 Polimorfismo
+## 🎭 Polimorfismo
 
-Polimorfismo é a capacidade de **usar métodos com o mesmo nome em classes diferentes**, com comportamentos distintos.
-
+Polimorfismo é a capacidade de **usar métodos com o mesmo nome em classes diferentes**, com comportamentos distintos.  
 Isso permite escrever **código genérico**, facilitando a extensibilidade e reutilização.
 
-### Exemplo:
+### 📌 Exemplo:
 
 ```python
 class Animal:
@@ -365,4 +364,91 @@ for animal in animais:
 
 ---
 
+## 👨‍👩‍👧‍👦 Polimorfismo com Herança
 
+O polimorfismo é frequentemente usado com **herança**.  
+Uma **superclasse** define métodos genéricos, e as **subclasses** os implementam de formas diferentes.
+
+Isso permite que você trate diferentes objetos de forma uniforme usando a classe base, mas com comportamentos distintos.
+
+---
+
+## 🧮 Variáveis de Classe vs Variáveis de Instância
+
+- **Variáveis de instância** são únicas para cada objeto (definidas dentro do `__init__` com `self`).
+- **Variáveis de classe** são compartilhadas entre todas as instâncias (definidas diretamente na classe).
+
+### 📌 Exemplo:
+
+```python
+class Pessoa:
+    especie = "Humano"  # variável de classe
+
+    def __init__(self, nome):
+        self.nome = nome  # variável de instância
+```
+
+---
+
+## 🔧 Métodos de Classe vs Métodos Estáticos
+
+- **@classmethod**  
+  Recebe a classe como primeiro argumento (`cls`) e pode modificar atributos da classe.
+
+- **@staticmethod**  
+  Não recebe automaticamente `self` ou `cls`. Funciona como uma função comum dentro da classe.
+
+### 🧭 Quando usar?
+
+- Use `@classmethod` quando o método precisar acessar ou modificar a **classe**.
+- Use `@staticmethod` para funções **utilitárias** relacionadas à classe, mas que não precisam da instância nem da classe.
+
+---
+
+## 🧱 Classes Abstratas
+
+Classes abstratas definem uma **estrutura base** para outras classes. Elas **não devem ser instanciadas diretamente**.
+
+Utilizam:
+
+- O módulo `abc`
+- O decorador `@abstractmethod`
+
+Esses elementos forçam que subclasses implementem determinados métodos.
+
+> ⚠️ Uma vez que uma classe se torna abstrata, **ela não pode mais ser instanciada diretamente**.
+
+---
+
+## 🧩 Interfaces
+
+Interfaces determinam **o que uma classe deve fazer, mas não como**.  
+São como contratos: qualquer classe que a implemente **precisa fornecer os métodos definidos** com sua própria lógica.
+
+Em Python, interfaces geralmente são representadas com:
+
+- `ABC` (Abstract Base Class)
+- Métodos decorados com `@abstractmethod`
+
+---
+
+## 🧪 Modo ABC (Abstract Base Class)
+
+O módulo `abc` permite criar **classes abstratas** no Python.
+
+### 🔧 Como usar:
+
+1. Importe `ABC` e `abstractmethod` do módulo `abc`.
+2. Crie uma classe base que herda de `ABC`.
+3. Use `@abstractmethod` para definir os métodos obrigatórios.
+
+### 📌 Exemplo:
+
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def emitir_som(self):
+        pass
+```
