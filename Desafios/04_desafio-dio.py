@@ -1,5 +1,4 @@
 #Desafio Dio 4 - Utiliando Classes
-#Em andamento
 from datetime import datetime, date, time
 from abc import ABC, abstractmethod
 
