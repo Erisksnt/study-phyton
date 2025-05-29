@@ -1,6 +1,12 @@
 # Erick Santos
 ## About me
-Graduado em Cybersecurity 🎓 | Apaixonado por Redes e Segurança da Informação 💻 | Buscando soluções inovadoras para proteger dados e sistemas 🛡️|
+Graduate in Cybersecurity 🎓 | Passionate about Networks and Information Security 💻 | Seeking innovative solutions to protect data and systems 🛡️|
+
+I'm Erick, a graduate in Information Security and passionate about Computer Networks and Cybersecurity. 🧠💻
+
+I've worked as a Level 2 Support Analyst, gaining hands-on experience in managing and securing networks in dynamic environments. I'm familiar with tools like Zabbix, Nagios, Grafana, and The Dude, and have worked with routers, switches, firewalls, and RF equipment.
+
+My focus is on keeping systems connected, secure, and running smoothly — making sure data stays safe, available, and reliable. I'm always looking to learn more and apply my knowledge to solve real-world problems in tech. 🚀🔐
 
 ## Conecte-se comigo
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-000?style=for-the-badge&logo=linkedin&logoColor=blue)](https://www.linkedin.com/in/erisk-santos/)
